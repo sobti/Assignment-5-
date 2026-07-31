@@ -75,7 +75,7 @@ meant to have.
 
 ---
 
-## Part 5 — Our Experiment
+## Part 5 — Our Experiment (RegMix Approch)
 
 ### What we did
 
