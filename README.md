@@ -3,12 +3,12 @@
 
 ## Part 1 
 
-We looked at how leading methods and top models decide what data to train on. The same
+I looked at how leading methods and top models decide what data to train on. The same
 pattern shows up everywhere: **general web data (Common Crawl) makes up most of the mix
 (about 50–90%)**, and smaller, deliberate amounts of data are added for the specific
 skills the model should be good at — like coding, math, and other languages.
 
-We then ran our own small experiment to test a mix for our five data types, and it
+I then ran our own small experiment to test a mix for our five data types, and it
 confirmed the pattern.
 
 ---
@@ -42,11 +42,11 @@ a model broad language ability and general knowledge. A specialist model still n
 base underneath it.
 
 **2. Specific skills only come from specific data.**
-General web data barely covers things like coding, math, or Indian languages. If you want
-the model to be good at those, you have to deliberately include data for them — you can't
+General web data barely covers things like coding, math, or Indian languages. If we want
+the model to be good at those, we have to deliberately include data for them — we can't
 get there by adding more general web.
 
-**3. You don't need a lot of specialist data — just a real, dedicated amount.**
+**3. We don't need a lot of specialist data — just a real, dedicated amount.**
 A small but intentional slice goes a long way. Top models add a modest amount of
 high-quality math and code data near the end of training and see big jumps on math and
 coding tests. The goal isn't to flood the mix with code or Indic data — it's to reserve a
@@ -80,13 +80,13 @@ meant to have.
 ### What we did
 
 To test a mix for our own five data types — **web, code, math, Indic, and research
-papers** — we ran a small version of the RegMix approach:
+papers** — I ran a small version of the RegMix approach:
 
 1. Trained many small models, each on a *different* mix of the five data types.
 2. Recorded how well each mix did on each data type.
 3. Used those results to predict the best overall mix.
 
-Everything ran on a single cloud GPU. We used small models and modest data per run to keep
+Everything ran on a single cloud GPU. I used small models and modest data per run to keep
 it affordable — this is a proof of concept, not a full-scale run, so the numbers show the
 *direction*, not the final word.
 
@@ -102,8 +102,8 @@ it affordable — this is a proof of concept, not a full-scale run, so the numbe
 | Indic | AI4Bharat Sangraha (4 Indian languages, balanced) |
 | Research papers | Arxiver (arXiv papers) |
 
-We prepared about 60 million words (tokens) of each type — roughly 300 million in total —
-which is enough to compare mixes fairly while staying small and fast. We used a
+I prepared about 60 million words (tokens) of each type — roughly 300 million in total —
+which is enough to compare mixes fairly while staying small and fast. I used a
 multilingual tokenizer (the tool that splits text into tokens) so that Indian-language
 text wasn't broken up inefficiently.
 
@@ -140,13 +140,13 @@ mix, not to be the final production recipe.
 type, and its overall score — so any result here can be reproduced or re-checked directly
 from that file.
 
-### What we found
+### What I found
 
 - **The approach works.** The predictor could reliably tell good mixes from bad ones.
 
-- **The mix follows whatever you tell it to prioritize.** In an early run we forgot to
+- **The mix follows whatever you tell it to prioritize.** In an early run I forgot to
   count web data toward the goal, and the mix promptly dropped web to almost nothing —
-  a useful reminder that you have to explicitly value web for it to stay in the mix.
+  a useful reminder that we have to explicitly value web for it to stay in the mix.
 
 - **Web is the reliable backbone.** Once web was properly valued, it consistently came out
   as the biggest slice — the model wanted it around 57–67%, matching what the top models
@@ -175,14 +175,14 @@ stable result was:
 | Indic | 15% |
 | Research papers | 7% |
 
-This lined up closely with what we'd expected going in, and with what the top models do —
+This lined up closely with what I expected going in, and with what the top models do —
 web as the large backbone, meaningful dedicated slices for code and Indic.
 
 ---
 
-## Part 6 — Our Suggested Mixture
+## Part 6 —  Suggested Mixture
 
-Bringing together the research, the top models, and our own experiment, we recommend:
+Bringing together the research, the top models, and my own experiment, I recommend:
 
 | Type of data | Share | Why |
 |--------------|------:|-----|
