@@ -1,7 +1,7 @@
 [data_mix_full_report (2).md](https://github.com/user-attachments/files/30594180/data_mix_full_report.2.md)
 # Planning the Pretraining Data Mix: Research, Top Models, and Our Experiment
 
-## Part 1 — In short
+## Part 1 
 
 We looked at how leading methods and top models decide what data to train on. The same
 pattern shows up everywhere: **general web data (Common Crawl) makes up most of the mix
