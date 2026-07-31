@@ -1,0 +1,68 @@
+{
+  "domains": [
+    "web",
+    "code",
+    "maths",
+    "indic",
+    "papers"
+  ],
+  "hf_sources": {
+    "web": {
+      "id": "OptimalScale/ClimbMix",
+      "config": null,
+      "split": "train",
+      "text_key": "text"
+    },
+    "code": {
+      "id": "bigcode/the-stack-dedup",
+      "config": "default",
+      "split": "train",
+      "text_key": "content",
+      "data_dir": "data/python"
+    },
+    "maths": {
+      "id": "open-web-math/open-web-math",
+      "config": null,
+      "split": "train",
+      "text_key": "text"
+    },
+    "papers": {
+      "id": "neuralwork/arxiver",
+      "config": null,
+      "split": "train",
+      "text_key": "markdown"
+    }
+  },
+  "tokenizer": "bigscience/bloom",
+  "tokens_per_domain": 60000000,
+  "val_tokens_per_domain": 2000000,
+  "proxy": {
+    "n_params_target": 1000000,
+    "tokens_per_proxy": 50000000,
+    "block_size": 512
+  },
+  "sweep": {
+    "n_mixtures": 32,
+    "dirichlet_alpha": 1.0,
+    "seed": 0
+  },
+  "target_weights": {
+    "indic": 0.4,
+    "code": 0.3,
+    "maths": 0.2,
+    "papers": 0.1,
+    "web": 0.0
+  },
+  "indic_sangraha": {
+    "id": "ai4bharat/sangraha",
+    "subset": "verified",
+    "langs": [
+      "hin",
+      "tam",
+      "ben",
+      "tel"
+    ],
+    "text_key": "text",
+    "tokens_per_lang": 15000000
+  }
+}
