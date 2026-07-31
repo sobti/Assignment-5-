@@ -1,19 +1,19 @@
-[data_mix_full_report (2).md](https://github.com/user-attachments/files/30594180/data_mix_full_report.2.md)
-# Planning the Pretraining Data Mix: Research, Top Models, and Our Experiment
+[data_mix_pretraining_report.md](https://github.com/user-attachments/files/30606924/data_mix_pretraining_report.md)
+# Planning the Pretraining Data Mix: Research, Top Models, and My Experiment
 
-## Part 1 
+## Part 1 — In short
 
 I looked at how leading methods and top models decide what data to train on. The same
 pattern shows up everywhere: **general web data (Common Crawl) makes up most of the mix
 (about 50–90%)**, and smaller, deliberate amounts of data are added for the specific
 skills the model should be good at — like coding, math, and other languages.
 
-I then ran our own small experiment to test a mix for our five data types, and it
+I then ran my own small experiment to test a mix for my five data types, and it
 confirmed the pattern.
 
 ---
 
-## Part 2 — The methods we checked
+## Part 2 — The methods I checked
 
 - **DoReMi (Google, 2023).** Uses a small test model to figure out good proportions for
   each type of data, then applies them to the big model. It adjusts the balance of web
@@ -42,11 +42,11 @@ a model broad language ability and general knowledge. A specialist model still n
 base underneath it.
 
 **2. Specific skills only come from specific data.**
-General web data barely covers things like coding, math, or Indian languages. If we want
-the model to be good at those, we have to deliberately include data for them — we can't
+General web data barely covers things like coding, math, or Indian languages. If you want
+the model to be good at those, you have to deliberately include data for them — you can't
 get there by adding more general web.
 
-**3. We don't need a lot of specialist data — just a real, dedicated amount.**
+**3. You don't need a lot of specialist data — just a real, dedicated amount.**
 A small but intentional slice goes a long way. Top models add a modest amount of
 high-quality math and code data near the end of training and see big jumps on math and
 coding tests. The goal isn't to flood the mix with code or Indic data — it's to reserve a
@@ -75,11 +75,11 @@ meant to have.
 
 ---
 
-## Part 5 — Our Experiment (RegMix Approch)
+## Part 5 — My Experiment
 
-### What we did
+### What I did
 
-To test a mix for our own five data types — **web, code, math, Indic, and research
+To test a mix for my own five data types — **web, code, math, Indic, and research
 papers** — I ran a small version of the RegMix approach:
 
 1. Trained many small models, each on a *different* mix of the five data types.
@@ -125,14 +125,14 @@ mixes they produce still transfers to bigger models.
 **How the rounds worked.**
 
 - **Round 1:** 37 models on a wide spread of random mixes, to map the landscape.
-- **Round 2:** 16 more models clustered around our proposed 60% web recipe, to zoom in.
+- **Round 2:** 16 more models clustered around my proposed 60% web recipe, to zoom in.
 
-After all 53, we let the method pick the best mix — with web anchored as the backbone, so
+After all 53, I let the method pick the best mix — with web anchored as the backbone, so
 it couldn't wander off into unrealistic recipes.
 
 **Scale note.** A full, publication-grade version of this method would use much bigger
 models and far more data per run (the original RegMix used 512 models on 20x more data
-each). Our smaller version is meant to demonstrate the approach and point to a sensible
+each). My smaller version is meant to demonstrate the approach and point to a sensible
 mix, not to be the final production recipe.
 
 **Record of all runs.** Every one of the 53 test models is logged in the file
@@ -146,20 +146,20 @@ from that file.
 
 - **The mix follows whatever you tell it to prioritize.** In an early run I forgot to
   count web data toward the goal, and the mix promptly dropped web to almost nothing —
-  a useful reminder that we have to explicitly value web for it to stay in the mix.
+  a useful reminder that you have to explicitly value web for it to stay in the mix.
 
 - **Web is the reliable backbone.** Once web was properly valued, it consistently came out
   as the biggest slice — the model wanted it around 57–67%, matching what the top models
   do.
 
 - **Indic is a stable, meaningful slice.** Across every version of the experiment, Indic
-  landed near 15% — the most consistent result we got.
+  landed near 15% — the most consistent result I got.
 
 - **A caution about chasing scores.** In one run the method wanted to pour 42% of the mix
   into math. On inspection this was a quirk: math text is easy to get a low "score" on
   without the model actually becoming better at math reasoning, and this happened when the
-  method was allowed to search freely. This is why we don't follow the raw numbers blindly
-  — we sanity-check them against common sense. Once we anchored web as the backbone (the
+  method was allowed to search freely. This is why I don't follow the raw numbers blindly
+  — I sanity-check them against common sense. Once I anchored web as the backbone (the
   realistic setting), math settled back to a sensible ~11%.
 
 ### The experiment's best mix
@@ -175,14 +175,15 @@ stable result was:
 | Indic | 15% |
 | Research papers | 7% |
 
-This lined up closely with what I expected going in, and with what the top models do —
+This lined up closely with what I'd expected going in, and with what the top models do —
 web as the large backbone, meaningful dedicated slices for code and Indic.
 
 ---
 
-## Part 6 —  Suggested Mixture
+## Part 6 — My Suggested Mixture
 
-Bringing together the research, the top models, and my own experiment, I recommend:
+Bringing together the research, the top models, and my own experiment, I recommend the
+following mix:
 
 | Type of data | Share | Why |
 |--------------|------:|-----|
@@ -192,18 +193,46 @@ Bringing together the research, the top models, and my own experiment, I recomme
 | Indic | **15%** | A bigger slice, since Indian languages are a priority and barely appear in web data |
 | Research papers | **5%** | Academic and scientific coverage |
 
-**Why these numbers:**
+**Why I chose these numbers:**
 
 - **60% web** sits between Llama 3 (50%) and OLMo (76%). It keeps a strong general
-  foundation while leaving room for the skills we care about. Our experiment agreed web
+  foundation while leaving room for the skills I care about. My experiment agreed web
   should be the largest slice by far.
 - **10% code and 10% math** give each a real, dedicated slice — enough to build the skill,
   in line with how top models size these.
 - **15% Indic** is deliberately larger than top models use for other languages, because
-  Indic is a priority for us and is very underrepresented in general web data. Our
+  Indic is a priority for me and is very underrepresented in general web data. My
   experiment consistently supported ~15% here.
 - **5% research papers** covers academic and scientific writing.
 
 **One honest note:** Indic is a hard, underrepresented area. A 15% share is a serious
 commitment, but getting strong Indic performance also depends on the *quality* of the
 Indic data and using a tokenizer suited to Indian scripts — not just the percentage.
+
+---
+
+## Part 7 — Applying the Mix to a 4 Trillion Token Budget
+
+If I train on a total budget of **4 trillion tokens**, my suggested mix breaks down as
+follows:
+
+| Type of data | Share | Tokens |
+|--------------|------:|-------:|
+| General web (Common Crawl) | 60% | 2.40 trillion |
+| Code | 10% | 0.40 trillion |
+| Math | 10% | 0.40 trillion |
+| Indic | 15% | 0.60 trillion |
+| Research papers | 5% | 0.20 trillion |
+| **Total** | **100%** | **4.00 trillion** |
+
+So out of 4 trillion tokens, I would source **2.4 trillion** from general web, **0.6
+trillion** for Indic, **0.4 trillion** each for code and math, and **0.2 trillion** for
+research papers.
+
+**A practical point on sourcing:** the web, code, math, and paper budgets are
+straightforward to fill from large public datasets. Indic at 0.6 trillion tokens is the
+hardest to source at quality — high-quality Indian-language data is limited, so I may need
+to combine several Indic sources, and I should watch that I'm not simply repeating the
+same Indic data many times to hit the number. If enough quality Indic data isn't
+available, it's better to hold some of that budget than to pad it with low-quality or
+heavily repeated text.
